@@ -1,0 +1,89 @@
+﻿@page
+@model StaffSignInBoard.Pages.ReportsModel
+@{
+}
+
+@if (Model.ErrorMessage != string.Empty)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
+}
+
+<div class="row">
+    <div class="col">
+        <h3>Reports</h3>
+        <p>Choose a start and end date to view sign in and out activity during that time.</p>
+    </div>
+</div>
+
+<form method="post">
+    <div class="form-row">
+        <div class="col-auto">
+            <input asp-for="StartDate" class="form-control" type="datetime-local" placeholder="Start Date" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="col-auto">
+            <input asp-for="EndDate" class="form-control" type="datetime-local" placeholder="End Date" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped" id="results">
+            <thead>
+                <tr>
+                    <th scope="col">Time Stamp</th>
+                    <th scope="col">Event</th>
+                    <th scope="col">Staff Member</th>
+                    <th scope="col">Library</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.SearchResults)
+                {
+                    <tr>
+                        <th scope="row">@r.TimeStamp.ToString("MM/dd/yyyy h:mm:ss tt")</th>
+                        <td>
+                            @if (r.EventType == Models.EventType.SignIn)
+                            {
+                                <ion-icon name="enter"></ion-icon><span>&nbsp;In</span>
+                            }
+                            else
+                            {
+                                <span>Out&nbsp;</span><ion-icon name="exit"></ion-icon>
+                            }
+                        </td>
+                        <td>@r.StaffMemberName</td>
+                        <td>@r.Library</td>
+                        <td>@r.RoomNumber</td>
+                        <td>@r.SpecificLocation</td>
+                        <td><span class="small">@r.Notes</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#results').DataTable();
+        });
+        setTimeout(function () {
+            $('.alert').fadeOut('fast');
+        }, 5000);</script>
+}

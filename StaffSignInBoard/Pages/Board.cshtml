@@ -1,0 +1,47 @@
+﻿@page
+@model StaffSignInBoard.Pages.BoardModel
+@{
+}
+
+<div class="row">
+    <div class="col">
+        <h3>Signed-in users</h3>
+        <p>The following staff members are currently signed in.</p>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var e in Model.Events)
+    {
+        if (e.EventType == Models.EventType.SignIn)
+        {
+            string imageSrc = string.Empty;
+            var staff = Model.StaffMembers.FirstOrDefault(x => x.Name == e.StaffMemberName);
+            if (staff != null)
+            {
+                imageSrc = string.IsNullOrEmpty(staff.Image) ? "placeholder.png" : staff.Image;
+                imageSrc = "images/" + imageSrc;
+            }
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <img src="@imageSrc" alt="">
+                    </div>
+                    <div class="col">
+                        <div class="card-block px-2 pt-1">
+                            <h5 class="card-title"><a href="~/SignInOutEvent?id=@e.Id">@e.StaffMemberName</a></h5>
+                            <p class="small card-text">@e.Library @e.RoomNumber</p>
+                            <p class="small card-text">@e.SpecificLocation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer w-100 text-muted">
+                    <small class="text-muted">Signed in @e.TimeStamp.ToString("MM/dd/yyyy h:mm:ss tt")</small>
+                </div>
+            </div>
+        </div>
+        }
+    }
+</div>

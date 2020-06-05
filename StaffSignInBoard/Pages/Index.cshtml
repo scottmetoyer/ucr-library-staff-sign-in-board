@@ -1,0 +1,114 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sign In/Out";
+}
+
+@if (Model.ErrorMessage != string.Empty)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (Model.SuccessMessage != string.Empty)
+{
+    <div class="alert alert-success" role="alert">
+        @Model.SuccessMessage
+    </div>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Please enter your information below to sign in/out of your work location.</p>
+</div>
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.StaffMemberName" class="control-label"></label>
+                <input asp-for="SignInOutEvent.StaffMemberName" class="form-control" id="staffmember" />
+                <span asp-validation-for="SignInOutEvent.StaffMemberName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Library" class="control-label"></label>
+                <select asp-for="SignInOutEvent.Library" class="form-control" asp-items="Model.Libraries" id="library">
+                    <option value="">Choose a library</option>
+                </select>
+                <span asp-validation-for="SignInOutEvent.Library" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.RoomNumber" class="control-label"></label>
+                <input asp-for="SignInOutEvent.RoomNumber" class="form-control" id="roomnumber" />
+                <span asp-validation-for="SignInOutEvent.RoomNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.SpecificLocation" class="control-label"></label>
+                <input asp-for="SignInOutEvent.SpecificLocation" class="form-control" id="specificlocation" />
+                <span asp-validation-for="SignInOutEvent.SpecificLocation" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Notes" class="control-label"></label>
+                <textarea asp-for="SignInOutEvent.Notes" class="form-control"></textarea>
+                <span asp-validation-for="SignInOutEvent.Notes" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button asp-page-handler="SignIn" class="btn btn-success btn-event"><ion-icon name="enter"></ion-icon>&nbsp;Sign In</button>&nbsp;
+            <button asp-page-handler="SignOut" class="btn btn-warning btn-event"><ion-icon name="exit"></ion-icon>&nbsp;Sign Out</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        var staff = [];
+        @foreach(var s in Model.StaffMembers)
+        {
+            @:staff.push({ id: "@s.Id", value: "@s.Name"})
+        }
+
+        $('#staffmember').autocomplete(
+            {
+                source: staff,
+                minLength: 2,
+                select: function (event, ui) {
+                    console.log("Selected: " + ui.item.value + " aka " + ui.item.id);
+                    $.ajax({
+                        url: "/LastSignIn?name=" + ui.item.value,
+                        success: function (data) {
+                            console.log(data);
+                            if (data) {
+                                $('#library').val(data.library);
+                                $('#roomnumber').val(data.roomNumber);
+                                $('#specificlocation').val(data.specificLocation);
+                            }
+                        },
+                    });
+            }
+            });
+
+        setTimeout(function () {
+            $('.alert').fadeOut('fast');
+        }, 5000); 
+    </script>
+}
