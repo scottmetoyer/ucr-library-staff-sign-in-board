@@ -27,4 +27,9 @@
     <Content Remove="Pages\Staff.cshtml" />
     <Content Remove="Pages\Services\StaffMembers.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="signinoutboard.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
