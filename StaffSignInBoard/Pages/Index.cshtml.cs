@@ -41,7 +41,7 @@ namespace StaffSignInBoard.Pages
         private void InitializePage()
         {
             this.SignInOutEvent = new SignInOutEvent();
-            this.StaffMembers = _dbContext.StaffMembers.ToList();
+            this.StaffMembers = _dbContext.StaffMembers.OrderBy(x => x.Name).ToList();
 
             // this.StaffMembers = new SelectList(_dbContext.StaffMembers, nameof(StaffMember.Id), nameof(StaffMember.Name));
             this.Libraries = new List<SelectListItem>
