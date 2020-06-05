@@ -2,3 +2,44 @@
 @model StaffSignInBoard.Pages.SignInOutEventModel
 @{
 }
+
+<div class="row">
+    <div class="col">
+        <h3>Event Details</h3>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+   <div class="col">
+       <dl>
+           <dt>Staff Member</dt>
+           <dd>@Model.Event.StaffMemberName</dd>
+
+           <dt>Event Type</dt>
+           <dd>@if (Model.Event.EventType == Models.EventType.SignIn) {
+               <span>Sign in</span>
+           } else
+           {
+               <span>Sign out</span>
+           }
+           </dd>
+
+           <dt>Time Stamp</dt>
+           <dd>@Model.Event.TimeStamp.ToString(("MM/dd/yyyy h:mm:ss tt"))</dd>
+
+           <dt>Library</dt>
+           <dd>@Model.Event.Library</dd>
+
+           <dt>Room Number/Area</dt>
+           <dd>@Model.Event.RoomNumber</dd>
+
+           <dt>Specific Location</dt>
+           <dd>@Model.Event.SpecificLocation</dd>
+
+           <dt>Notes</dt>
+           <dd>@Model.Event.Notes</dd>
+       </dl>
+   </div>
+</div>

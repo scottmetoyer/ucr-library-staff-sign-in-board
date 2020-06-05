@@ -21,7 +21,6 @@ namespace StaffSignInBoard.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         { 
-            // optionsBuilder.UseSqlServer("Server=work.scottmetoyer.com,1433; Database=SignInOutBoard;User=SQLServerUser; Password=1StrongPassword!");
         }
     }
 }
