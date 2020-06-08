@@ -31,7 +31,7 @@ namespace StaffSignInBoard.Pages
         {
             StaffMembers = _dbContext.StaffMembers.ToList();
             Events = _dbContext.SignInOutEvents.FromSqlRaw(@"
-                select Id, Library, RoomNumber, SpecificLocation, StaffMemberName, max([TimeStamp]) as [TimeStamp], Notes, EventType from SignInOutEvents
+                select Id, Library, RoomNumber, SpecificLocation, StaffMemberName, max([TimeStamp]) as [TimeStamp], Notes, EventType, Area, Reason from SignInOutEvents
 group by StaffMemberName").ToList();
         }
     }

@@ -9,7 +9,7 @@ using StaffSignInBoard.Models;
 namespace StaffSignInBoard.Migrations
 {
     [DbContext(typeof(SignInOutBoardContext))]
-    [Migration("20200604203023_initial")]
+    [Migration("20200607145728_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,10 @@ namespace StaffSignInBoard.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EventType")
                         .HasColumnType("INTEGER");
 
@@ -32,6 +36,10 @@ namespace StaffSignInBoard.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RoomNumber")

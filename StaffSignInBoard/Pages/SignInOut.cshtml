@@ -1,0 +1,142 @@
+﻿@page
+@model StaffSignInBoard.Pages.SignInOutModel
+@{
+    ViewData["Title"] = "Sign In/Out";
+}
+
+@if (Model.ErrorMessage != string.Empty)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (Model.SuccessMessage != string.Empty)
+{
+    <div class="alert alert-success" role="alert">
+        @Model.SuccessMessage
+    </div>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Please enter your information below to sign in/out of your work location.</p>
+</div>
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.StaffMemberName" class="control-label"></label>
+                <input asp-for="SignInOutEvent.StaffMemberName" class="form-control" id="staffmember" readonly="readonly" />
+                <span asp-validation-for="SignInOutEvent.StaffMemberName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Reason" class="control-label"></label>
+                <select asp-for="SignInOutEvent.Reason" class="form-control" id="reasons">
+                    <option value="Work shift">Work shift</option>
+                    <option value="Pick up/drop off">Pick up/drop off</option>
+                </select>
+                <span asp-validation-for="SignInOutEvent.Reason" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Library" class="control-label"></label>
+                <select asp-for="SignInOutEvent.Library" class="form-control" id="library" onchange="loadAreas()">
+                    <option value="Rivera">Rivera</option>
+                    <option value="Orbach">Orbach</option>
+                </select>
+                <span asp-validation-for="SignInOutEvent.Library" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Area" class="control-label"></label>
+                <select asp-for="SignInOutEvent.Area" class="form-control" id="areas">
+                </select>
+                <span asp-validation-for="SignInOutEvent.Library" class="text-danger"></span>
+                <input type="hidden" asp-for="SignInOutEvent.Area" id="area"/>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.RoomNumber" class="control-label"></label>
+                <input asp-for="SignInOutEvent.RoomNumber" class="form-control" id="roomnumber" />
+                <span asp-validation-for="SignInOutEvent.RoomNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.SpecificLocation" class="control-label"></label>
+                <input asp-for="SignInOutEvent.SpecificLocation" class="form-control" id="specificlocation" />
+                <span asp-validation-for="SignInOutEvent.SpecificLocation" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="SignInOutEvent.Notes" class="control-label"></label>
+                <textarea asp-for="SignInOutEvent.Notes" class="form-control"></textarea>
+                <span asp-validation-for="SignInOutEvent.Notes" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button asp-page-handler="SignIn" class="btn btn-success btn-event"><ion-icon name="enter"></ion-icon>&nbsp;Sign in</button>&nbsp;
+            <button asp-page-handler="SignOut" class="btn btn-warning btn-event">Sign out&nbsp;<ion-icon name="exit"></ion-icon></button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript">
+        loadAreas();
+
+        function loadAreas() {
+            console.log("Loading areas.");
+            var library = $('#library').val();
+            var areas = $('#areas').empty();
+
+            if (library == 'Orbach') {
+                areas.append($('<option></option>').val('Technical Services Area - ground floor').html('Technical Services Area - ground floor'));
+                areas.append($('<option></option>').val('Circulation Reserves - first floor').html('Circulation Reserves - first floor'));
+                areas.append($('<option></option>').val('Cyberinfrastructure - first floor').html('Cyberinfrastructure - first floor'));
+                areas.append($('<option></option>').val('Receiving - ground floor').html('Receiving - ground floor'));
+                areas.append($('<option></option>').val('Security guard workstation - first floor').html('Security guard workstation - first floorm  cv'));
+            }
+
+            if (library == 'Rivera') {
+                areas.append($('<option></option>').val('Administration - first floor').html('Administration - first floor'));
+                areas.append($('<option></option>').val('Circulation Reserves front desk area - first floor').html('Circulation Reserves front desk area - first floor'));
+                areas.append($('<option></option>').val('Circulation Reserves back desk area - first floor').html('Circulation Reserves back desk area - first floor'));
+                areas.append($('<option></option>').val('Interlibrary Loans - first floor').html('Interlibrary Loans - first floor'));
+                areas.append($('<option></option>').val('Security guard workstation - first floor').html('Security guard workstation - first floor'));
+                areas.append($('<option></option>').val('Receiving - first floor').html('Receiving - first floor'));
+                areas.append($('<option></option>').val('Special Collections and University Archives - fourth floor').html('Special Collections and University Archives - fourth floor'));
+            }
+
+            if ($('#area').val() != '') {
+                var area = $('#area').val();
+                console.log(area);
+                $('#areas').val(area);
+            }
+        }
+
+        setTimeout(function () {
+            $('.alert').fadeOut('fast');
+        }, 5000);</script>
+}

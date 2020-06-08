@@ -22,6 +22,10 @@ namespace StaffSignInBoard.Models
         public string Library { get; set; }
 
         [Required]
+        [Display(Name = "Area")]
+        public string Area { get; set; }
+
+        [Required]
         [Display(Name = "Room Number/Area")]
         public string RoomNumber { get; set; }
 
@@ -30,6 +34,10 @@ namespace StaffSignInBoard.Models
 
         [Display(Name = "Timestamp")]
         public DateTime TimeStamp { get; set; }
+
+        [Required]
+        [Display(Name = "Visit Reason")]
+        public string Reason { get; set; }
 
         [Display(Name = "Notes")]
         public string Notes { get; set; }

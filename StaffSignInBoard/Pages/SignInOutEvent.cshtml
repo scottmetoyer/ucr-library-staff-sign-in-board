@@ -18,12 +18,15 @@
            <dd>@Model.Event.StaffMemberName</dd>
 
            <dt>Event Type</dt>
-           <dd>@if (Model.Event.EventType == Models.EventType.SignIn) {
-               <span>Sign in</span>
-           } else
-           {
-               <span>Sign out</span>
-           }
+           <dd>
+               @if (Model.Event.EventType == Models.EventType.SignIn)
+               {
+                   <span>Sign in</span>
+               }
+               else
+               {
+                   <span>Sign out</span>
+               }
            </dd>
 
            <dt>Time Stamp</dt>
@@ -31,6 +34,12 @@
 
            <dt>Library</dt>
            <dd>@Model.Event.Library</dd>
+
+           <dt>Area</dt>
+           <dd>@Model.Event.Area</dd>
+
+           <dt>Reason</dt>
+           <dd>@Model.Event.Reason</dd>
 
            <dt>Room Number/Area</dt>
            <dd>@Model.Event.RoomNumber</dd>

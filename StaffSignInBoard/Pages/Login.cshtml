@@ -1,0 +1,59 @@
+﻿@page
+@model StaffSignInBoard.Pages.LoginModel
+@{ ViewData["Title"] = "Sign In/Out"; }
+
+@if (Model.ErrorMessage != string.Empty)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>}
+
+@if (Model.SuccessMessage != string.Empty)
+{
+    <div class="alert alert-success" role="alert">
+        @Model.SuccessMessage
+    </div>}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Enter your library username and password to continue.</p>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label class="control-label">Library username</label>
+                    <input asp-for="Username" class="form-control" id="swipeinput" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <input asp-for="Password" class="form-control" id="swipeinput" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <button class="btn btn-primary" value="Log in">Log in</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">setTimeout(function () {
+            $('.alert').fadeOut('fast');
+        }, 5000);</script>
+}

@@ -21,11 +21,7 @@ namespace StaffSignInBoard.Pages
         public string SuccessMessage { get; set; }
 
         [BindProperty]
-        public SignInOutEvent SignInOutEvent { get; set; }
-
-        public List<StaffMember> StaffMembers { get; set; }
-
-        public List<SelectListItem> Libraries { get; set; }
+        public string SwipeInput { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, SignInOutBoardContext dbContext)
         {
@@ -33,68 +29,55 @@ namespace StaffSignInBoard.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public void OnGet(string message)
         {
             this.InitializePage();
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                switch (message)
+                {
+                    case "signin":
+                        this.SuccessMessage = "You have been successfully signed in.";
+                        break;
+
+                    case "signout":
+                        this.SuccessMessage = "You have been successfully signed out";
+                        break;
+                }
+            }
         }
 
         private void InitializePage()
         {
-            this.SignInOutEvent = new SignInOutEvent();
-            this.StaffMembers = _dbContext.StaffMembers.OrderBy(x => x.Name).ToList();
-
-            // this.StaffMembers = new SelectList(_dbContext.StaffMembers, nameof(StaffMember.Id), nameof(StaffMember.Name));
-            this.Libraries = new List<SelectListItem>
-            {
-                new SelectListItem("Orbach", "Orbach"),
-                new SelectListItem("Rivera", "Rivera")
-            };
-
             SuccessMessage = string.Empty;
             ErrorMessage = string.Empty;
         }
 
-        public async Task SaveSignInOutEvent()
-        { 
-            try
-            {
-                SignInOutEvent.TimeStamp = DateTime.Now;
-                _dbContext.SignInOutEvents.Add(SignInOutEvent);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Error, ex, "Error saving event");
-                this.ErrorMessage = "There was an error signing in. Please try again.";
-            }
-           
-            InitializePage();
-            ModelState.Clear();
-        }
-
-        public async Task<IActionResult> OnPostSignInAsync()
+        public IActionResult OnPost()
         {
+            this.InitializePage();
+
             if (!ModelState.IsValid)
             {
+                ModelState.Clear();
+                this.SwipeInput = string.Empty;
+                this.ErrorMessage = "Swipe not registered. Please try again.";
                 return Page();
             }
 
-            SignInOutEvent.EventType = EventType.SignIn;
-            await this.SaveSignInOutEvent();
-            this.SuccessMessage = "You have been signed in.";
-            return Page();
-        }
+            var staffMember = _dbContext.StaffMembers.FirstOrDefault(x => x.Magstripe == this.SwipeInput.Trim());
 
-        public async Task<IActionResult> OnPostSignOutAsync()
-        {
-            if (!ModelState.IsValid)
+            if(staffMember != null)
             {
-                return Page();
+                return new RedirectResult("~/SignInOut?id=" + staffMember.Id);
+            } else
+            {
+                ModelState.Clear();
+                this.SwipeInput = string.Empty;
+                this.ErrorMessage = "User not found. Please login with your username and password by clicking the link below.";
             }
 
-            SignInOutEvent.EventType = EventType.SignOut;
-            await this.SaveSignInOutEvent();
-            this.SuccessMessage = "You have been signed out.";
             return Page();
         }
     }
