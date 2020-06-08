@@ -41,7 +41,6 @@ namespace StaffSignInBoard.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RoomNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SpecificLocation")

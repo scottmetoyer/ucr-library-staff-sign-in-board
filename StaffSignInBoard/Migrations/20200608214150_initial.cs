@@ -16,7 +16,7 @@ namespace StaffSignInBoard.Migrations
                     StaffMemberName = table.Column<string>(nullable: false),
                     Library = table.Column<string>(nullable: false),
                     Area = table.Column<string>(nullable: false),
-                    RoomNumber = table.Column<string>(nullable: false),
+                    RoomNumber = table.Column<string>(nullable: true),
                     SpecificLocation = table.Column<string>(nullable: true),
                     TimeStamp = table.Column<DateTime>(nullable: false),
                     Reason = table.Column<string>(nullable: false),
