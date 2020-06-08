@@ -25,7 +25,6 @@ namespace StaffSignInBoard.Models
         [Display(Name = "Area")]
         public string Area { get; set; }
 
-        [Required]
         [Display(Name = "Room Number/Area")]
         public string RoomNumber { get; set; }
 
