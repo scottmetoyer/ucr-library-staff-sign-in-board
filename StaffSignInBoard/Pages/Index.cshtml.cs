@@ -66,6 +66,7 @@ namespace StaffSignInBoard.Pages
                 return Page();
             }
 
+            this.SwipeInput = this.SwipeInput.Substring(1, 16);
             var staffMember = _dbContext.StaffMembers.FirstOrDefault(x => x.Magstripe == this.SwipeInput.Trim());
 
             if(staffMember != null)
@@ -75,7 +76,7 @@ namespace StaffSignInBoard.Pages
             {
                 ModelState.Clear();
                 this.SwipeInput = string.Empty;
-                this.ErrorMessage = "User not found. Please login with your library username by clicking the link below.";
+                this.ErrorMessage = "User not found. Please login with your NETID by clicking the link below.";
             }
 
             return Page();

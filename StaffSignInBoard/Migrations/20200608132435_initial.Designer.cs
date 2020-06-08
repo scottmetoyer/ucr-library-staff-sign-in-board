@@ -9,7 +9,7 @@ using StaffSignInBoard.Models;
 namespace StaffSignInBoard.Migrations
 {
     [DbContext(typeof(SignInOutBoardContext))]
-    [Migration("20200607145728_initial")]
+    [Migration("20200608132435_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,9 @@ namespace StaffSignInBoard.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
