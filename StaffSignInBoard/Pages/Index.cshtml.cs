@@ -75,7 +75,7 @@ namespace StaffSignInBoard.Pages
             {
                 ModelState.Clear();
                 this.SwipeInput = string.Empty;
-                this.ErrorMessage = "User not found. Please login with your username and password by clicking the link below.";
+                this.ErrorMessage = "User not found. Please login with your library username by clicking the link below.";
             }
 
             return Page();

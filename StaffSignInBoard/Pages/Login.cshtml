@@ -16,7 +16,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Enter your library username and password to continue.</p>
+    <p>Enter your library username to continue.</p>
 
     <form method="post">
         <div class="row">
@@ -25,16 +25,6 @@
                     <label class="control-label">Library username</label>
                     <input asp-for="Username" class="form-control" id="swipeinput" />
                     <span asp-validation-for="Username" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <input asp-for="Password" class="form-control" id="swipeinput" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
             </div>
         </div>

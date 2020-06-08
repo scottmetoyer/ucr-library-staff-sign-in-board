@@ -26,7 +26,6 @@ namespace StaffSignInBoard.Pages
 
         public List<SelectListItem> Reasons { get; set; }
 
-
         [BindProperty]
         public SignInOutEvent SignInOutEvent { get; set; }
 

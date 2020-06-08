@@ -16,10 +16,6 @@ namespace StaffSignInBoard.Pages
         [Required]
         public string Username { get; set; }
 
-        [BindProperty]
-        [Required]
-        public string Password { get; set; }
-
         private SignInOutBoardContext _dbContext;
 
         private readonly ILogger<LoginModel> _logger;
@@ -38,7 +34,6 @@ namespace StaffSignInBoard.Pages
         {
             this.SuccessMessage = string.Empty;
             this.ErrorMessage = string.Empty;
-            this.Password = string.Empty;
             this.Username = string.Empty;
         }
 
@@ -49,7 +44,15 @@ namespace StaffSignInBoard.Pages
 
         public IActionResult OnPost()
         {
-            return new RedirectResult("SignInOut");
+            var staffMember = _dbContext.StaffMembers.FirstOrDefault(x => x.Username == this.Username.Trim());
+
+            if (staffMember == null)
+            {
+                this.ErrorMessage = "User not found. Please check your entries and try again";
+                return Page();
+            }
+
+            return new RedirectResult("SignInOut?id=" + staffMember.Id);
         }
     }
 }

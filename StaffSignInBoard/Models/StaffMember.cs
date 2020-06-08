@@ -13,6 +13,8 @@ namespace StaffSignInBoard.Models
 
         public string Image { get; set; }
 
+        public string Username { get; set; }
+
         public StaffMember()
         {     
         }
